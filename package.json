@@ -1,0 +1,11 @@
+{
+  "name": "node.js_webdevelopment_notesapp",
+  "version": "1.0.0",
+  "description": "Project made based on studies from the book Node.js WebDevelopment Fifth Edition",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas Pereira",
+  "license": "ISC"
+}

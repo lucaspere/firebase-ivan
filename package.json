@@ -3,9 +3,28 @@
   "version": "1.0.0",
   "description": "Project made based on studies from the book Node.js WebDevelopment Fifth Edition",
   "main": "src/app.js",
+  "engines": {
+      "node": "14.x"
+  },
   "scripts": {
+    "start": "node dist/app.js",
+    "build": "tsc",
+    "dev": "ts-node-dev --inspect --transpile-only src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lucas Pereira",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@typescript-eslint/parser": "^4.29.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.3.5"
+  }
 }

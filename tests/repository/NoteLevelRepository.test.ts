@@ -5,8 +5,6 @@ import LevelNoteRepository, {
     levelDB,
 } from '../../src/repository/LevelNoteRepository';
 
-process.env.LEVELDB_LOCATION = 'notes.level.test';
-
 suite('Testing levelDB Repository', function () {
     const noteRepository = new LevelNoteRepository();
 

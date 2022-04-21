@@ -1,12 +1,10 @@
 import { FastifyPluginAsync } from 'fastify';
 import { NoteRouteSchema } from '../docs';
 import { Note } from '../models/Note';
-import { NoteMemoryRepository } from '../repository/NoteMemory';
 import { uuid } from '../docs/commons';
 import { note } from '../docs/noteSchema';
 import { AddressInfo } from 'net';
-
-const NoteRepo = new NoteMemoryRepository();
+import { NoteRepositoryFactory } from '../repository';
 
 const NoteSchema = {
     $id: 'Note',
@@ -29,6 +27,10 @@ const NoteResponseSchema = {
 
 // eslint-disable-next-line require-await
 export const notesRouter: FastifyPluginAsync = async app => {
+    const NoteRepo = await new NoteRepositoryFactory(
+        process.env.REPOSITORY_TYPE || 'NoteMemoryRepository',
+    ).create();
+
     app.addSchema(NoteSchema);
     app.addSchema(NoteResponseSchema);
 

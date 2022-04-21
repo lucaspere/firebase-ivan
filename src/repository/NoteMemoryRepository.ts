@@ -3,7 +3,7 @@ import { Repository } from './Repository';
 
 const notes: Note[] = [];
 
-export class NoteMemoryRepository implements Repository<Note> {
+export default class NoteMemoryRepository implements Repository<Note> {
     clear(): Promise<void> {
         notes.splice(0, notes.length);
 

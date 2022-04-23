@@ -1,8 +1,8 @@
 import { Level } from 'level';
-import { Note } from '../models/Note';
+import { INote } from '../models/Note';
 import { Repository } from './Repository';
 
-export const levelDB = new Level<string, Note>(
+export const levelDB = new Level<string, INote>(
     process.env.LEVELDB_LOCATION || 'notes.level',
     {
         createIfMissing: true,
@@ -10,18 +10,18 @@ export const levelDB = new Level<string, Note>(
     },
 );
 // TODO: Add Debugs
-export default class LevelNoteRepository implements Repository<Note> {
+export default class LevelNoteRepository implements Repository<INote> {
     async clear(): Promise<void> {
         await levelDB.clear();
     }
-    async create(newNote: Note): Promise<Note> {
+    async create(newNote: INote): Promise<INote> {
         await levelDB.put(newNote.id, newNote);
 
         const note = await levelDB.get(newNote.id);
 
         return note;
     }
-    async find(id: string): Promise<Note | undefined> {
+    async find(id: string): Promise<INote | undefined> {
         try {
             const note = await levelDB.get(id);
             return note;
@@ -34,8 +34,8 @@ export default class LevelNoteRepository implements Repository<Note> {
             if (err.code === 'LEVEL_NOT_FOUND') return undefined;
         }
     }
-    async list(): Promise<Note[]> {
-        const notes: Note[] = [];
+    async list(): Promise<INote[]> {
+        const notes: INote[] = [];
         for await (const note of levelDB.values()) {
             notes.push(note);
         }
@@ -44,8 +44,8 @@ export default class LevelNoteRepository implements Repository<Note> {
     }
     async update(
         id: string,
-        payload: Partial<Note>,
-    ): Promise<Note | undefined> {
+        payload: Partial<INote>,
+    ): Promise<INote | undefined> {
         const note = await levelDB.get(id);
         if (note) {
             const updatedNote = Object.assign(note, payload);
@@ -55,7 +55,7 @@ export default class LevelNoteRepository implements Repository<Note> {
             return updatedNote;
         }
     }
-    async delete(id: string): Promise<Note | undefined> {
+    async delete(id: string): Promise<INote | undefined> {
         const note = await levelDB.get(id);
 
         if (note) {

@@ -1,6 +1,11 @@
 import { v4 as uuid } from 'uuid';
+export interface INote {
+    id: string;
+    title: string;
+    description: string;
+}
 
-export class Note {
+export class Note implements INote {
     constructor(title: string, description: string, id?: string) {
         Object.defineProperties(this, {
             id: {

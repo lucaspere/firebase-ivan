@@ -1,7 +1,7 @@
 import Fastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
 import fastifyCors from 'fastify-cors';
 import fastifySwagger from 'fastify-swagger';
-import api from './routes';
+import api from './routes/index';
 import { Server } from './server';
 import { SwaggerConfig } from './swaggerConfig';
 

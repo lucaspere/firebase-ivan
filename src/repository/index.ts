@@ -1,5 +1,5 @@
 import { Note } from '../models/Note';
-import NoteMemoryRepository from './NoteMemoryRepository';
+import LevelNoteRepository from './LevelNoteRepository';
 import { Repository } from './Repository';
 
 export class NoteRepositoryFactory {
@@ -12,7 +12,7 @@ export class NoteRepositoryFactory {
             return new Note();
         } catch (error) {
             console.error(error);
-            return new NoteMemoryRepository();
+            throw new Error();
         }
     }
 }

@@ -1,17 +1,15 @@
 import { FastifyPluginAsync } from 'fastify';
-import { NoteRouteSchema } from '../docs';
 import { Note } from '../models/Note';
-import { uuid } from '../docs/commons';
-import { note } from '../docs/noteSchema';
+import { CommonsSchemas, NoteRouteSchema } from '../docs/index';
 import { AddressInfo } from 'net';
-import { NoteRepositoryFactory } from '../repository';
+import { NoteRepositoryFactory } from '../repository/index';
 
 const NoteSchema = {
     $id: 'Note',
     description: 'The `Note` object definition',
     type: 'object',
     required: ['title', 'description'],
-    properties: note,
+    properties: NoteRouteSchema.note,
 };
 
 const NoteResponseSchema = {
@@ -20,8 +18,8 @@ const NoteResponseSchema = {
     type: 'object',
     required: ['id', 'title', 'description'],
     properties: {
-        ...note,
-        id: uuid,
+        ...NoteRouteSchema.note,
+        id: CommonsSchemas.uuid,
     },
 };
 
@@ -60,7 +58,7 @@ export const notesRouter: FastifyPluginAsync = async app => {
 
     app.patch('/:id', NoteRouteSchema.updateNoteByIDef, async (req, res) => {
         const { id } = req.params as { id: string };
-        const payload = req.body as Partial<Note>;
+        const payload = req.body as Note;
 
         const note = await NoteRepo.update(id, payload);
 

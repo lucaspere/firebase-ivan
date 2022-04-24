@@ -131,4 +131,6 @@ src/**/level
 tests/db/
 
 **.db
+
+/playground
 # End of https://www.toptal.com/developers/gitignore/api/node

@@ -1,5 +1,4 @@
 import { Note } from '../models/Note';
-import LevelNoteRepository from './LevelNoteRepository';
 import { Repository } from './Repository';
 
 export class NoteRepositoryFactory {

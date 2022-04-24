@@ -4,6 +4,7 @@ import fastifySwagger from 'fastify-swagger';
 import api from './routes/index';
 import { Server } from './server';
 import { SwaggerConfig } from './swaggerConfig';
+import { customErrorHandler } from './utils/errors/errorHandler';
 
 export const app = (
     opts: FastifyServerOptions = {
@@ -14,6 +15,8 @@ export const app = (
         ajv: {
             customOptions: {
                 allErrors: true,
+                strictNumbers: true,
+                jsonPointers: true,
             },
         },
     },
@@ -23,6 +26,7 @@ export const app = (
     app.register(fastifySwagger, SwaggerConfig);
     app.register(fastifyCors);
     app.register(api, { prefix: 'api' });
+    app.setErrorHandler(customErrorHandler);
 
     return app;
 };

@@ -12,7 +12,7 @@ export type AppError = {
     name: ERRORS_NAMES | string;
     message: string;
     statusCode: number;
-    details: Details[];
+    details: Details[] | undefined;
 };
 
 export const buildValidationError = (

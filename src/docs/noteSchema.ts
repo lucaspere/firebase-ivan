@@ -23,6 +23,14 @@ const getNoteById: FastifySchema = {
         200: {
             $ref: 'NoteResponse',
         },
+        404: {
+            description: 'A resource not found application error',
+            $ref: 'AppError',
+        },
+        422: {
+            description: 'A unprocessable format application error',
+            $ref: 'AppError',
+        },
     },
 };
 

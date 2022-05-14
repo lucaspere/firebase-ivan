@@ -39,7 +39,7 @@ class LevelFactory {
                 throw new BaseError(
                     name,
                     code,
-                    `Note with id {${id}} Not Found`,
+                    `Note with id {${id}} not Found`,
                 );
             }
         }

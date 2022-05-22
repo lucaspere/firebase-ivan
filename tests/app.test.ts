@@ -55,10 +55,20 @@ describe('Note API tests', function () {
             });
 
             const body = JSON.stringify({
+                name: 'BAD_REQUEST',
+                message: 'Bad Request',
                 statusCode: 400,
-                error: 'Bad Request',
-                message:
-                    "body should have required property 'title', body should have required property 'description'",
+                details: [
+                    {
+                        field: '',
+                        description: "should have required property 'title'",
+                    },
+                    {
+                        field: '',
+                        description:
+                            "should have required property 'description'",
+                    },
+                ],
             });
 
             expect(res.statusCode).to.be.equal(400);
@@ -84,9 +94,15 @@ describe('Note API tests', function () {
                 method: 'GET',
                 url: '/api/notes/' + uuid(),
             });
-
             expect(res.statusCode).to.be.equal(404);
-            expect(res.body).to.be.empty;
+        });
+
+        it('Should response with unprocessable formart with invalid id format', async () => {
+            const res = await app.inject({
+                method: 'GET',
+                url: '/api/notes/' + 'invalid_id',
+            });
+            expect(res.statusCode).to.be.equal(422);
         });
     });
 
@@ -141,13 +157,16 @@ describe('Note API tests', function () {
                 payload,
             });
             const body = JSON.stringify({
-                statusCode: 400,
-                error: 'Bad Request',
-                message:
-                    'body.title should be string, body.description should be string',
+                name: 'VALIDATION_ERROR',
+                message: 'Unprocessable Entity',
+                statusCode: 422,
+                details: [
+                    { field: '.title', description: 'should be string' },
+                    { field: '.description', description: 'should be string' },
+                ],
             });
 
-            expect(res.statusCode).to.be.equal(400);
+            expect(res.statusCode).to.be.equal(422);
             expect(res.body).to.be.equal(body);
         });
 

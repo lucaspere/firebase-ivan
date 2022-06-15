@@ -4,13 +4,13 @@ import { getDatabase } from "firebase/database";
 import admin = require("firebase-admin");
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCXnpJVdSVvndtmkfW0rR9h8B7b6-VCOJM",
-  authDomain: "ivan-6ee57.firebaseapp.com",
-  databaseURL: "https://ivan-6ee57.firebaseio.com",
-  projectId: "ivan-6ee57",
-  storageBucket: "ivan-6ee57.appspot.com",
-  messagingSenderId: "327517691726",
-  appId: "1:327517691726:web:1e56a4822eef0e83e2481f",
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
 };
 
 export const app = initializeApp(firebaseConfig);

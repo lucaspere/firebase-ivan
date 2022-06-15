@@ -1,6 +1,6 @@
-import { INote } from '../models/Note';
-import { Repository } from './Repository';
 import LevelDB from '../db/Level';
+import { INote } from '../@types/Note';
+import { Repository } from '../@types/Repository';
 
 export default class LevelNoteRepository implements Repository<INote> {
     async clear(): Promise<void> {

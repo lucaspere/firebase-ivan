@@ -1,5 +1,5 @@
+import { Repository } from '../@types/Repository';
 import { Note } from '../models/Note';
-import { Repository } from './Repository';
 
 const notes: Note[] = [];
 

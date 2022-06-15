@@ -1,9 +1,9 @@
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 import { v4, validate as validateUUID } from 'uuid';
 import { Note } from '../../src/models/Note';
 
-suite('Testing Note Model', function () {
-    test('Should instanciar corretily', () => {
+describe('Testing Note Model', function () {
+    it('Should instanciar corretily', () => {
         const note = new Note(
             'Note Model test',
             'Testing the constructor inicitialize',
@@ -15,19 +15,20 @@ suite('Testing Note Model', function () {
             'description',
             'Testing the constructor inicitialize',
         );
-        assert.isTrue(validateUUID(note.id));
+
+        expect(validateUUID(note.id)).be.true;
     });
 
-    test('Should serialize correctily', () => {
+    it('Should serialize correctily', () => {
         const note = new Note(
             'Note Model test',
             'Testing the constructor inicitialize',
         );
 
-        assert.equal(note.to_JSON(), JSON.stringify(note));
+        expect(note.to_JSON()).to.be.equals(JSON.stringify(note));
     });
 
-    test('Should build a note from JSOn correctily', () => {
+    it('Should build a note from JSOn correctily', () => {
         const note = new Note(
             'Note Model test',
             'Testing the constructor inicitialize',
@@ -36,12 +37,12 @@ suite('Testing Note Model', function () {
         const noteJSON = JSON.stringify(note);
         const { id, title, description } = Note.from_JSON(noteJSON);
 
-        assert.equal(id, note.id);
-        assert.equal(title, note.title);
-        assert.equal(description, note.description);
+        expect(id).to.be.equals(note.id);
+        expect(title).to.be.equals(note.title);
+        expect(description).to.be.equals(note.description);
     });
 
-    test('Should handle notes equalies', () => {
+    it('Should handle notes equalies', () => {
         const id = v4();
         const note = new Note(
             'Note Model test',
@@ -54,6 +55,6 @@ suite('Testing Note Model', function () {
             id,
         );
 
-        assert.isTrue(note.equals(copyNote));
+        expect(note.equals(copyNote)).be.true;
     });
 });

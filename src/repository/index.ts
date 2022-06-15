@@ -1,5 +1,5 @@
+import { Repository } from '../@types/Repository';
 import { Note } from '../models/Note';
-import { Repository } from './Repository';
 
 export class NoteRepositoryFactory {
     constructor(private repositoryType: string) {}
@@ -10,7 +10,6 @@ export class NoteRepositoryFactory {
             const Note = repository.default;
             return new Note();
         } catch (error) {
-            console.error(error);
             throw new Error();
         }
     }

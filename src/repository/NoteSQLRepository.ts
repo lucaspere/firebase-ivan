@@ -1,10 +1,10 @@
 import { Note } from '../models/Note';
-import { Repository } from './Repository';
 import { PrismaClient } from '@prisma/client';
+import { Repository } from '../@types/Repository';
 
 const sqlDB = new PrismaClient().note;
 
-export default class SQLNoteRepository implements Repository<Note> {
+export default class NoteSQLRepository implements Repository<Note> {
     async clear(): Promise<void> {
         await sqlDB.deleteMany();
     }

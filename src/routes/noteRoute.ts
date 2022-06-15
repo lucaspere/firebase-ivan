@@ -45,13 +45,11 @@ export const notesRouter: FastifyPluginAsync = async app => {
 
         res.send({ notes });
     });
-    //f2831124-5b14-4520-9fbd-e213be151e4d
     app.post('/', NoteRouteSchema.createNoteDef, async (req, res) => {
         const newNote = Note.from_JSON(JSON.stringify(req.body));
         const note = await NoteRepo.create(newNote);
         const { address, port } = app.server.address() as AddressInfo;
 
-        // TODO: Creates a response handler
         res.header('location', `${address}:${port}/api/notes/${note.id}`);
         res.status(201).send();
     });

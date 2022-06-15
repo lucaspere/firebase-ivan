@@ -5,10 +5,8 @@ spec: tests/**/*.test.ts
 require:
     - ts-node/register
     - dotenv/config
+    - source-map-support/register
+ui: bdd
 recursive: true
 fail-zero: true
 exit: true
-ui: tdd
-ignore:
-    - tests/app.test.ts
-    - tests/server.test.ts

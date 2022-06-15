@@ -2,40 +2,33 @@
 import { expect } from 'chai';
 import { Note } from '../../src/models/Note';
 
-import LevelNoteRepository from '../../src/repository/LevelNoteRepository';
-import levelDB from '../../src/db/Level';
+import NoteSQLRepository from '../../src/repository/NoteSQLRepository';
+import { PrismaClient } from '@prisma/client';
 
-describe('Testing levelDB Repository', function () {
-    const noteRepository = new LevelNoteRepository();
+const sqlDB = new PrismaClient();
+
+describe('Testing SQL Repository', function () {
+    const noteRepository = new NoteSQLRepository();
 
     this.afterAll(async function closeDB() {
-        await levelDB.close();
+        await sqlDB.$disconnect();
     });
 
     this.afterEach(async function () {
-        await levelDB.clear();
+        await sqlDB.note.deleteMany();
     });
 
     it('Should clear database', async () => {
         const note1 = new Note('Note Test', 'Testing Level DB Repository');
         const note2 = new Note('Note Test 2', 'Testing Level DB Repository 2');
-        await levelDB.batch([
-            {
-                type: 'put',
-                key: note1.id,
-                value: note1,
-            },
-            {
-                type: 'put',
-                key: note2.id,
-                value: note2,
-            },
-        ]);
+        await sqlDB.note.create({ data: note1 });
+        await sqlDB.note.create({ data: note2 });
+
         await noteRepository.clear();
 
-        const notes = await levelDB.values().all();
+        const note = await sqlDB.note.findFirst();
 
-        expect(!!notes.length).be.false;
+        expect(!!note).be.false;
     });
 
     it('Should save a note', async () => {
@@ -47,28 +40,18 @@ describe('Testing levelDB Repository', function () {
 
     it('Should get a note by its id', async () => {
         const newNote = new Note('Note Test', 'Testing Level DB Repository');
-        await levelDB.put(newNote.id, newNote);
+        await sqlDB.note.create({ data: newNote });
 
         const note = await noteRepository.find(newNote.id);
 
-        expect(newNote.equals(note)).be.true;
+        expect(newNote.equals(note!)).be.true;
     });
 
     it('Should list notes', async () => {
         const note1 = new Note('Note Test', 'Testing Level DB Repository');
         const note2 = new Note('Note Test 2', 'Testing Level DB Repository 2');
-        await levelDB.batch([
-            {
-                type: 'put',
-                key: note1.id,
-                value: note1,
-            },
-            {
-                type: 'put',
-                key: note2.id,
-                value: note2,
-            },
-        ]);
+        await sqlDB.note.create({ data: note1 });
+        await sqlDB.note.create({ data: note2 });
 
         const notes = await noteRepository.list();
 
@@ -77,7 +60,7 @@ describe('Testing levelDB Repository', function () {
 
     it('Should update a note by its id', async () => {
         const newNote = new Note('Note Test', 'Testing Level DB Repository');
-        await levelDB.put(newNote.id, newNote);
+        await sqlDB.note.create({ data: newNote });
 
         newNote.description = 'Note Test Updated!';
 
@@ -88,7 +71,7 @@ describe('Testing levelDB Repository', function () {
 
     it('Should delete a note by its id', async () => {
         const newNote = new Note('Note Test', 'Testing Level DB Repository');
-        await levelDB.put(newNote.id, newNote);
+        await sqlDB.note.create({ data: newNote });
 
         const note = await noteRepository.delete(newNote.id);
 
